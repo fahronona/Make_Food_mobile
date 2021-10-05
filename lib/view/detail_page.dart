@@ -33,13 +33,12 @@ class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    AppDatabase().CheckFav(widget.idMeal).then((value) {
+    AppDatabase().checkFav(widget.idMeal).then((value) {
       if (value.isNotEmpty) {
-        _favBloc = FavBloc(OnFav());
+        _favBloc.add(FavEvent.fav);
       }
-      //AppDatabase().close();
     });
+    super.initState();
   }
 
   @override
@@ -108,6 +107,14 @@ class _DetailPageState extends State<DetailPage> {
                                 return InkWell(
                                   onTap: () {
                                     _favBloc.add(FavEvent.unFav);
+                                    AppDatabase().deleteMeal(Food(
+                                      area: widget.area,
+                                      category: widget.category,
+                                      title: widget.title,
+                                      idmeal: widget.idMeal,
+                                      instruction: widget.instruction,
+                                      urlImage: widget.urlImage,
+                                    ));
                                   },
                                   child: Icon(state.icon, color: Colors.green),
                                 );
@@ -117,12 +124,15 @@ class _DetailPageState extends State<DetailPage> {
                                     onTap: () {
                                       _favBloc.add(FavEvent.fav);
                                       AppDatabase().insertNewMeal(Food(
-                                          area: widget.area,
-                                          category: widget.category,
-                                          title: widget.title,
-                                          idMeal: widget.idMeal,
-                                          instruction: widget.instruction,
-                                          id: 0));
+                                        area: widget.area,
+                                        category: widget.category,
+                                        title: widget.title,
+                                        idmeal: widget.idMeal,
+                                        instruction: widget.instruction,
+                                        urlImage: widget.urlImage,
+                                      ));
+
+                                      AppDatabase().close();
                                     },
                                     child:
                                         Icon(state.icon, color: Colors.green));

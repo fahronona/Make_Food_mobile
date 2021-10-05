@@ -8,27 +8,25 @@ part of 'moor_data.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class Food extends DataClass implements Insertable<Food> {
-  final int id;
-  final String idMeal;
+  final String idmeal;
   final String title;
   final String area;
   final String category;
   final String instruction;
+  final String urlImage;
   Food(
-      {required this.id,
-      required this.idMeal,
+      {required this.idmeal,
       required this.title,
       required this.area,
       required this.category,
-      required this.instruction});
+      required this.instruction,
+      required this.urlImage});
   factory Food.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return Food(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      idMeal: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id_meal'])!,
+      idmeal: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}idmeal'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       area: const StringType()
@@ -37,28 +35,30 @@ class Food extends DataClass implements Insertable<Food> {
           .mapFromDatabaseResponse(data['${effectivePrefix}category'])!,
       instruction: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}instruction'])!,
+      urlImage: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}url_image'])!,
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['id_meal'] = Variable<String>(idMeal);
+    map['idmeal'] = Variable<String>(idmeal);
     map['title'] = Variable<String>(title);
     map['area'] = Variable<String>(area);
     map['category'] = Variable<String>(category);
     map['instruction'] = Variable<String>(instruction);
+    map['url_image'] = Variable<String>(urlImage);
     return map;
   }
 
   FoodsCompanion toCompanion(bool nullToAbsent) {
     return FoodsCompanion(
-      id: Value(id),
-      idMeal: Value(idMeal),
+      idmeal: Value(idmeal),
       title: Value(title),
       area: Value(area),
       category: Value(category),
       instruction: Value(instruction),
+      urlImage: Value(urlImage),
     );
   }
 
@@ -66,146 +66,144 @@ class Food extends DataClass implements Insertable<Food> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Food(
-      id: serializer.fromJson<int>(json['id']),
-      idMeal: serializer.fromJson<String>(json['idMeal']),
+      idmeal: serializer.fromJson<String>(json['idmeal']),
       title: serializer.fromJson<String>(json['title']),
       area: serializer.fromJson<String>(json['area']),
       category: serializer.fromJson<String>(json['category']),
       instruction: serializer.fromJson<String>(json['instruction']),
+      urlImage: serializer.fromJson<String>(json['urlImage']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'idMeal': serializer.toJson<String>(idMeal),
+      'idmeal': serializer.toJson<String>(idmeal),
       'title': serializer.toJson<String>(title),
       'area': serializer.toJson<String>(area),
       'category': serializer.toJson<String>(category),
       'instruction': serializer.toJson<String>(instruction),
+      'urlImage': serializer.toJson<String>(urlImage),
     };
   }
 
   Food copyWith(
-          {int? id,
-          String? idMeal,
+          {String? idmeal,
           String? title,
           String? area,
           String? category,
-          String? instruction}) =>
+          String? instruction,
+          String? urlImage}) =>
       Food(
-        id: id ?? this.id,
-        idMeal: idMeal ?? this.idMeal,
+        idmeal: idmeal ?? this.idmeal,
         title: title ?? this.title,
         area: area ?? this.area,
         category: category ?? this.category,
         instruction: instruction ?? this.instruction,
+        urlImage: urlImage ?? this.urlImage,
       );
   @override
   String toString() {
     return (StringBuffer('Food(')
-          ..write('id: $id, ')
-          ..write('idMeal: $idMeal, ')
+          ..write('idmeal: $idmeal, ')
           ..write('title: $title, ')
           ..write('area: $area, ')
           ..write('category: $category, ')
-          ..write('instruction: $instruction')
+          ..write('instruction: $instruction, ')
+          ..write('urlImage: $urlImage')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(
-      id.hashCode,
+      idmeal.hashCode,
       $mrjc(
-          idMeal.hashCode,
+          title.hashCode,
           $mrjc(
-              title.hashCode,
-              $mrjc(area.hashCode,
-                  $mrjc(category.hashCode, instruction.hashCode))))));
+              area.hashCode,
+              $mrjc(category.hashCode,
+                  $mrjc(instruction.hashCode, urlImage.hashCode))))));
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Food &&
-          other.id == this.id &&
-          other.idMeal == this.idMeal &&
+          other.idmeal == this.idmeal &&
           other.title == this.title &&
           other.area == this.area &&
           other.category == this.category &&
-          other.instruction == this.instruction);
+          other.instruction == this.instruction &&
+          other.urlImage == this.urlImage);
 }
 
 class FoodsCompanion extends UpdateCompanion<Food> {
-  final Value<int> id;
-  final Value<String> idMeal;
+  final Value<String> idmeal;
   final Value<String> title;
   final Value<String> area;
   final Value<String> category;
   final Value<String> instruction;
+  final Value<String> urlImage;
   const FoodsCompanion({
-    this.id = const Value.absent(),
-    this.idMeal = const Value.absent(),
+    this.idmeal = const Value.absent(),
     this.title = const Value.absent(),
     this.area = const Value.absent(),
     this.category = const Value.absent(),
     this.instruction = const Value.absent(),
+    this.urlImage = const Value.absent(),
   });
   FoodsCompanion.insert({
-    this.id = const Value.absent(),
-    required String idMeal,
+    required String idmeal,
     required String title,
     required String area,
     required String category,
     required String instruction,
-  })  : idMeal = Value(idMeal),
+    required String urlImage,
+  })  : idmeal = Value(idmeal),
         title = Value(title),
         area = Value(area),
         category = Value(category),
-        instruction = Value(instruction);
+        instruction = Value(instruction),
+        urlImage = Value(urlImage);
   static Insertable<Food> custom({
-    Expression<int>? id,
-    Expression<String>? idMeal,
+    Expression<String>? idmeal,
     Expression<String>? title,
     Expression<String>? area,
     Expression<String>? category,
     Expression<String>? instruction,
+    Expression<String>? urlImage,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (idMeal != null) 'id_meal': idMeal,
+      if (idmeal != null) 'idmeal': idmeal,
       if (title != null) 'title': title,
       if (area != null) 'area': area,
       if (category != null) 'category': category,
       if (instruction != null) 'instruction': instruction,
+      if (urlImage != null) 'url_image': urlImage,
     });
   }
 
   FoodsCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? idMeal,
+      {Value<String>? idmeal,
       Value<String>? title,
       Value<String>? area,
       Value<String>? category,
-      Value<String>? instruction}) {
+      Value<String>? instruction,
+      Value<String>? urlImage}) {
     return FoodsCompanion(
-      id: id ?? this.id,
-      idMeal: idMeal ?? this.idMeal,
+      idmeal: idmeal ?? this.idmeal,
       title: title ?? this.title,
       area: area ?? this.area,
       category: category ?? this.category,
       instruction: instruction ?? this.instruction,
+      urlImage: urlImage ?? this.urlImage,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (idMeal.present) {
-      map['id_meal'] = Variable<String>(idMeal.value);
+    if (idmeal.present) {
+      map['idmeal'] = Variable<String>(idmeal.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -219,18 +217,21 @@ class FoodsCompanion extends UpdateCompanion<Food> {
     if (instruction.present) {
       map['instruction'] = Variable<String>(instruction.value);
     }
+    if (urlImage.present) {
+      map['url_image'] = Variable<String>(urlImage.value);
+    }
     return map;
   }
 
   @override
   String toString() {
     return (StringBuffer('FoodsCompanion(')
-          ..write('id: $id, ')
-          ..write('idMeal: $idMeal, ')
+          ..write('idmeal: $idmeal, ')
           ..write('title: $title, ')
           ..write('area: $area, ')
           ..write('category: $category, ')
-          ..write('instruction: $instruction')
+          ..write('instruction: $instruction, ')
+          ..write('urlImage: $urlImage')
           ..write(')'))
         .toString();
   }
@@ -240,15 +241,9 @@ class $FoodsTable extends Foods with TableInfo<$FoodsTable, Food> {
   final GeneratedDatabase _db;
   final String? _alias;
   $FoodsTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, false,
-      typeName: 'INTEGER',
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _idMealMeta = const VerificationMeta('idMeal');
-  late final GeneratedColumn<String?> idMeal = GeneratedColumn<String?>(
-      'id_meal', aliasedName, false,
+  final VerificationMeta _idmealMeta = const VerificationMeta('idmeal');
+  late final GeneratedColumn<String?> idmeal = GeneratedColumn<String?>(
+      'idmeal', aliasedName, false,
       typeName: 'TEXT', requiredDuringInsert: true);
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
@@ -267,9 +262,13 @@ class $FoodsTable extends Foods with TableInfo<$FoodsTable, Food> {
   late final GeneratedColumn<String?> instruction = GeneratedColumn<String?>(
       'instruction', aliasedName, false,
       typeName: 'TEXT', requiredDuringInsert: true);
+  final VerificationMeta _urlImageMeta = const VerificationMeta('urlImage');
+  late final GeneratedColumn<String?> urlImage = GeneratedColumn<String?>(
+      'url_image', aliasedName, false,
+      typeName: 'TEXT', requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, idMeal, title, area, category, instruction];
+      [idmeal, title, area, category, instruction, urlImage];
   @override
   String get aliasedName => _alias ?? 'foods';
   @override
@@ -279,14 +278,11 @@ class $FoodsTable extends Foods with TableInfo<$FoodsTable, Food> {
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('id_meal')) {
-      context.handle(_idMealMeta,
-          idMeal.isAcceptableOrUnknown(data['id_meal']!, _idMealMeta));
+    if (data.containsKey('idmeal')) {
+      context.handle(_idmealMeta,
+          idmeal.isAcceptableOrUnknown(data['idmeal']!, _idmealMeta));
     } else if (isInserting) {
-      context.missing(_idMealMeta);
+      context.missing(_idmealMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
@@ -314,11 +310,18 @@ class $FoodsTable extends Foods with TableInfo<$FoodsTable, Food> {
     } else if (isInserting) {
       context.missing(_instructionMeta);
     }
+    if (data.containsKey('url_image')) {
+      context.handle(_urlImageMeta,
+          urlImage.isAcceptableOrUnknown(data['url_image']!, _urlImageMeta));
+    } else if (isInserting) {
+      context.missing(_urlImageMeta);
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey =>
+      {idmeal, title, area, category, instruction};
   @override
   Food map(Map<String, dynamic> data, {String? tablePrefix}) {
     return Food.fromData(data, _db,

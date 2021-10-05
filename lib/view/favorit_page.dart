@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:making_food/components/card_food.dart';
 import 'package:making_food/components/search_field.dart';
 import 'package:making_food/moor/moor_data.dart';
+import 'package:making_food/view/detail_page.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
@@ -47,7 +48,24 @@ class _FavoritePageState extends State<FavoritePage> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (_, index) {
                   if (snapshot.hasData) {
-                    return cardFood(() {});
+                    return cardFood(() {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                    urlImage: snapshot.data![index].urlImage,
+                                    title: snapshot.data![index].title,
+                                    area: snapshot.data![index].area,
+                                    category: snapshot.data![index].category,
+                                    instruction:
+                                        snapshot.data![index].instruction,
+                                    idMeal: snapshot.data![index].idmeal,
+                                  )));
+                    },
+                        area: snapshot.data![index].area,
+                        title: snapshot.data![index].title,
+                        category: snapshot.data![index].category,
+                        urlImage: snapshot.data![index].urlImage);
                   } else {
                     return Container(
                       height: 20,

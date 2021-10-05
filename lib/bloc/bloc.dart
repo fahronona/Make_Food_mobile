@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:making_food/bloc/state.dart';
+import 'package:making_food/moor/moor_data.dart';
 import 'package:making_food/service/api_repository.dart';
 
 enum NavbarItem { mainPage, favoritePage, profilePage }
@@ -64,6 +65,7 @@ class FavBloc extends Bloc<FavEvent, FavState> {
     switch (event) {
       case FavEvent.fav:
         yield OnFav();
+
         break;
       default:
         yield OnUnFav();
