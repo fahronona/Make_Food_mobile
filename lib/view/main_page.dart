@@ -126,3 +126,5 @@ Widget buildCard(BuildContext context, MealModel model) {
             category: model.meals[index].strCategory);
       });
 }
+
+// faris mau nyoba
